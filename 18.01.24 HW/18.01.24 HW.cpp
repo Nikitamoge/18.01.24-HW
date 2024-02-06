@@ -5,7 +5,107 @@
 
 using namespace std;
 
-//Task MyString
+//Task 1 Drob
+class Drob {
+private:
+    int numerator;
+    int denominator;
+    friend Drob operator*(const int& i, const Drob& other);
+
+public:
+    Drob(int num, int dem) {
+        if (dem == 0) {
+            cout << "ERROR: zero detected!";
+            exit(1);
+        }
+        numerator = num;
+        denominator = dem;
+    }
+
+    Drob operator+(const Drob& other) const {
+        int num = numerator * other.denominator + other.numerator * denominator;
+        int dem = denominator * other.denominator;
+        return Drob(num, dem);
+    }
+
+    Drob operator-(const Drob& other) const {
+        int num = numerator * other.denominator - other.numerator * denominator;
+        int dem = denominator * other.denominator;
+        return Drob(num, dem);
+    }
+
+    Drob operator*(const Drob& other) const {
+        int num = numerator * other.numerator;
+        int dem = denominator * other.denominator;
+        return Drob(num, dem);
+    }
+
+    Drob operator*(const int& i) const
+    {
+        int num = numerator * i;
+        int dem = denominator;
+        return Drob(num, dem);
+    }
+
+    Drob operator/(const Drob& other) const {
+        if (other.numerator == 0) {
+            cout << "ERROR: zero detected!";
+            exit(1);
+        }
+        int num = numerator * other.denominator;
+        int dem = denominator * other.numerator;
+        return Drob(num, dem);
+    }
+
+    Drob operator++()
+    {
+        numerator++;
+        denominator++;
+        return *this;
+    }
+
+    Drob operator++ (int)
+    {
+        Drob temp(*this);
+        ++(*this);
+        return temp;
+    }
+
+    operator double()
+    {
+        return double(numerator) / double(denominator);
+    }
+    friend istream& operator>>(istream& is, Drob& P);
+    friend ostream& operator<<(ostream& os, const Drob& P);
+};
+
+Drob operator*(const int& i, const Drob& other)
+{
+    int num = other.numerator * i;
+    int dem = other.denominator;
+    return Drob(num, dem);
+}
+
+istream& operator>>(istream& is, Drob& P) {
+    cout << "Numerator: " << endl;
+    is >> P.numerator;
+    cout << "Denominator: " << endl;
+    is >> P.denominator;
+    return is;
+}
+
+ostream& operator<<(ostream& os, const Drob& P)
+{
+    os << "Numerator = " << P.numerator << endl;
+    os << "Denominator = " << P.denominator << endl;
+    return os;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+//Task 2 MyString
 class MyString
 {
     char* str;
@@ -178,18 +278,30 @@ public:
     }
 };
 
-
 int MyString::count = 0;
 
-
-
-
 int main()
-{   //task mystring
-    MyString str;
-    cout << "Enter your string: ";
-    cin >> str;
-    cout << str << endl;  
+{
+    //Task 1 Drob
+    Drob fract1(1, 5);
+    Drob fract2(3, 10); 
+    int int1 = 5;
+
+    Drob result1 = fract1 * fract2;
+    cout << "Fraction * Fraction = " << result1 << endl;
+
+    Drob result2 = fract1 * int1;
+    cout << "Fraction * int = " << result2 << endl;
+
+    Drob result3 = int1 * fract1;
+    cout << "Int * fraction = " << result3 << endl;
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //Task 2 MyString
+    MyString str("Hello");
+    MyString sum = 10 + str;
+    sum.output();
 }
 
 
